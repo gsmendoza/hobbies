@@ -1,0 +1,7 @@
+%h3
+  Welcome
+
+%dl
+  - @root_tasks.each do |root_task|
+    %dt{ data: {id: root_task.id }}
+      = root_task.name

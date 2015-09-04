@@ -3,11 +3,23 @@
 #   I want to visit a home page
 #   So I can learn more about the website
 feature 'Home page' do
+  let(:home_page) do
+    Napybara::Element.new(self) do |page|
+      page.finder :root_task_item, 'dt' do |item|
+        def item.value
+          Task.find(node['data-id'])
+        end
+      end
+    end
+  end
+
+  let(:root_task) { create(:root_task) }
+
   Steps 'visit the home page' do
     Given "I am a visitor"
 
     And 'I have a root task' do
-      create(:root_task)
+      root_task
     end
 
     And 'the root task has two doable subtasks'
@@ -16,7 +28,9 @@ feature 'Home page' do
       visit root_path
     end
 
-    Then 'I should see the root task'
+    Then 'I should see the root task' do
+      expect(home_page.root_task_item.value).to eq(root_task)
+    end
 
     And 'I should see one of the subtasks underneath it'
 
