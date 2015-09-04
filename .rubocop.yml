@@ -1,0 +1,22 @@
+# Refer to https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+# for the default rubocop configuration.
+
+AllCops:
+  Exclude:
+    - db/schema.rb
+
+Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 89
+
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*
+
+StringLiterals:
+  Enabled: false
+
+Style/AlignParameters:
+  Enabled: false
