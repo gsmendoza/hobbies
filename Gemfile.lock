@@ -161,6 +161,8 @@ GEM
     ref (2.0.0)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
+    rspec-example_steps (3.0.2)
+      rspec-core (>= 3.0.0)
     rspec-expectations (3.3.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
@@ -249,6 +251,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_12factor
   rails_layout
+  rspec-example_steps
   rspec-rails
   sass-rails (~> 5.0)
   selenium-webdriver
