@@ -43,6 +43,7 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'napybara'
   gem 'rspec-example_steps'
   gem 'selenium-webdriver'
 end
