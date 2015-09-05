@@ -171,6 +171,10 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
+    randumb (0.5.0)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      rake
     ref (2.0.0)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
@@ -271,6 +275,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_12factor
   rails_layout
+  randumb
   rspec-example_steps
   rspec-rails
   sass-rails (~> 5.0)

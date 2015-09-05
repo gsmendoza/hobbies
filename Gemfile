@@ -12,6 +12,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'rails', '4.2.4'
 gem 'rack-wwwhisper', '~> 1.0'
+gem 'randumb'
 gem 'sass-rails', '~> 5.0'
 gem 'simple_form'
 gem 'therubyracer', platform: :ruby
