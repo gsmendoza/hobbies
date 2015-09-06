@@ -6,5 +6,9 @@ FactoryGirl.define do
     factory :root_task do
       parent nil
     end
+
+    factory :todo_task do
+      status Status::TODO
+    end
   end
 end

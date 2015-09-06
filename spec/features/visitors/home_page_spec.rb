@@ -5,15 +5,39 @@
 feature 'Home page' do
   let(:home_page) do
     Napybara::Element.new(self) do |page|
-      page.finder :root_task_item, 'dt' do |item|
-        def item.value
-          Task.find(node['data-id'])
+      page.finder :task_item, 'li.task' do |task_item|
+        task_item.finder :root, 'li:first-child' do |root|
+          def root.value
+            Task.find(node['data-id'])
+          end
+        end
+
+        task_item.finder :leaf, 'li:last-child' do |leaf|
+          def leaf.value
+            Task.find(node['data-id'])
+          end
+
+          leaf.finder :mark_as_done_link, 'a[data-name="mark-as-done"]'
         end
       end
     end
   end
 
-  let(:root_task) { create(:root_task) }
+  let(:root_task) do
+    create(:root_task, children: todo_tasks)
+  end
+
+  let(:todo_tasks) do
+    [create(:todo_task), create(:todo_task)]
+  end
+
+  let(:first_recommended_task_item) do
+    home_page.task_item.leaf
+  end
+
+  let(:first_recommended_task_item_value) do
+    first_recommended_task_item.value
+  end
 
   Steps 'visit the home page' do
     Given "I am a visitor"
@@ -22,25 +46,37 @@ feature 'Home page' do
       root_task
     end
 
-    And 'the root task has two doable subtasks'
+    And 'the root task has two doable subtasks' do
+      todo_tasks
+    end
 
     When "I visit the home page" do
       visit root_path
     end
 
     Then 'I should see the root task' do
-      expect(home_page.root_task_item.value).to eq(root_task)
+      expect(home_page.task_item.root.value).to eq(root_task)
     end
 
-    And 'I should see one of the subtasks underneath it'
+    And 'I should see one of the subtasks underneath it' do
+      expect(root_task.children).to include(first_recommended_task_item.value)
 
-    And 'I should see a link to mark the subtask as Done'
+      # cache first_recommended_task_item_value
+      first_recommended_task_item_value
+    end
 
-    When 'I click the Mark as Done link'
+    And 'I should see a link to mark the subtask as Done' do
+      expect(first_recommended_task_item).to have_mark_as_done_link
+    end
 
-    Then 'I should no longer see the subtask'
+    When 'I click the Mark as Done link' do
+      first_recommended_task_item.mark_as_done_link.node.click
+    end
 
-    And 'instead I see the other subtask'
+    Then 'I should see the other subtask' do
+      expect(home_page.task_item.leaf.value)
+        .to_not eq(first_recommended_task_item_value)
+    end
 
     When 'I view the subtask on its own page'
 
