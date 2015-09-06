@@ -21,7 +21,7 @@ group :development do
   gem 'hub', require: nil
   gem 'quiet_assets'
   gem 'rails_layout'
-  gem 'spring'
+  gem 'spring', '1.3.5'
   gem 'spring-commands-rspec'
   gem 'web-console', '~> 2.0'
 end
