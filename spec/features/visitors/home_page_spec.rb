@@ -3,6 +3,8 @@
 #   I want to visit a home page
 #   So I can learn more about the website
 feature 'Home page' do
+  include_context 'task_page'
+
   let(:home_page) do
     Napybara::Element.new(self) do |page|
       page.finder :task_item, 'li.task' do |task_item|
@@ -20,38 +22,6 @@ feature 'Home page' do
           leaf.finder :show_link, 'a[data-name="show"]'
 
           leaf.finder :mark_as_done_link, 'a[data-name="mark-as-done"]'
-        end
-      end
-    end
-  end
-
-  let(:show_task_page) do
-    Napybara::Element.new(self) do |page|
-      def page.visit!(task)
-        node.visit node.task_path(task)
-      end
-
-      page.finder :task, '.task' do |task|
-        def task.value
-          Task.find(node['data-id'])
-        end
-
-        task.finder :status, '.status .value' do |status|
-          def status.value
-            Status.find_by_name(node.text)
-          end
-        end
-
-        task.finder :last_done_on, '.last-done-on .value' do |last_done_on|
-          def last_done_on.value
-            node.text.to_date
-          end
-        end
-
-        task.finder :done_count, '.done-count .value' do |done_count|
-          def done_count.value
-            node.text.to_i
-          end
         end
       end
     end
@@ -113,11 +83,11 @@ feature 'Home page' do
     end
 
     When 'I view the subtask on its own page' do
-      show_task_page.visit!(first_recommended_task_item_value)
+      task_page.visit(first_recommended_task_item_value)
     end
 
     Then "I should see that it's been updated as Done" do
-      task = show_task_page.task
+      task = task_page.task
       expect(task.value).to eq(first_recommended_task_item_value)
       expect(task.status.value).to eq(Status::DONE)
       expect(task.last_done_on.value).to eq(Date.current)
