@@ -37,6 +37,8 @@ class Task < ActiveRecord::Base
 
   def mark_as_done
     self.status = Status::DONE
+    self.last_done_on = Date.current
+    self.done_count += 1
     save!
 
     parent.mark_as_done if parent

@@ -176,11 +176,17 @@ RSpec.describe Task, type: :model do
     it "marks itself and its ancestors as done" do
       child_task.mark_as_done
 
-      expect(child_task.status).to eq(Status::DONE)
-      expect(child_task.changes).to be_empty
+      aggregate_failures do
+        expect(child_task.status).to eq(Status::DONE)
+        expect(child_task.last_done_on).to eq(Date.current)
+        expect(child_task.done_count).to eq(1)
+        expect(child_task.changes).to be_empty
 
-      expect(task.status).to eq(Status::DONE)
-      expect(task.changes).to be_empty
+        expect(task.status).to eq(Status::DONE)
+        expect(task.last_done_on).to eq(Date.current)
+        expect(task.done_count).to eq(1)
+        expect(task.changes).to be_empty
+      end
     end
   end
 end

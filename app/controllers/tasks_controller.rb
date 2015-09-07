@@ -7,4 +7,8 @@ class TasksController < ApplicationController
 
     redirect_to :back
   end
+
+  def show
+    @task = Task.find(params[:id])
+  end
 end

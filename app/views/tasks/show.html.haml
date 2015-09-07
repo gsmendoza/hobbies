@@ -1,0 +1,14 @@
+%article.task{ data: { id: @task.id }}
+  %h1
+    = @task.name
+
+  %table.table
+    %tr.status
+      %th Status
+      %td.value= @task.status.name
+    %tr.last-done-on
+      %th Last done on
+      %td.value= @task.last_done_on
+    %tr.done-count
+      %th Done count
+      %td.value= @task.done_count

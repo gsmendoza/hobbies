@@ -11,7 +11,7 @@
 
         - task_path.each_with_index do |task, i|
           %li{ data: {id: task.id }}
-            = task.name
+            = link_to(task.name, task_path(task), data: { name: 'show' })
 
             - if i == task_path.length - 1
               &ndash;
