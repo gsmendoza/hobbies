@@ -35,6 +35,8 @@
       %th Actions
       %td
         = link_to 'Edit', edit_task_path(@task), class: 'edit-task-link'
+        |
+        = link_to 'Mark as done', mark_as_done_task_path(@task)
 
   - if @task.children.any?
     .child-tasks
@@ -49,6 +51,7 @@
           %th Status
           %th Last done on
           %th Done count
+          %th Actions
 
         - @task.children.order(:name).each do |child_task|
           %tr.child-task{ data: { id: child_task.id }}
@@ -64,3 +67,7 @@
             %td= child_task.status.name
             %td= child_task.last_done_on
             %td= child_task.done_count
+            %td
+              = link_to 'Edit', edit_task_path(child_task)
+              |
+              = link_to 'Mark as done', mark_as_done_task_path(child_task)
