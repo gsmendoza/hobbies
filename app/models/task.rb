@@ -8,6 +8,20 @@ class Task < ActiveRecord::Base
   belongs_to :parent, class_name: 'Task'
   belongs_to :reference, class_name: 'Task'
 
+  validates :name, presence: true
+
+  validates :weight,
+    presence: true,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  validates :status_id,
+    presence: true,
+    inclusion: { in: Status.all.map(&:id) }
+
+  validates :done_count,
+    presence: true,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
   scope :todo, -> { where(status: Status::TODO) }
 
   def self.doable
