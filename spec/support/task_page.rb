@@ -10,12 +10,20 @@ shared_context 'task_page' do
           Task.find(node['data-id'])
         end
 
+        task.finder :edit_link, 'a.edit-task-link'
+
         task.finder :ancestor, '.ancestor' do |ancestor|
           def ancestor.value
             Task.find(node['data-id'])
           end
 
           ancestor.finder :task_link, 'a.task-link'
+        end
+
+        task.finder :weight, '.weight .value' do |weight|
+          def weight.value
+            node.text.to_i
+          end
         end
 
         task.finder :status, '.status .value' do |status|
