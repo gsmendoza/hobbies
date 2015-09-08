@@ -1,9 +1,5 @@
 %nav
-  - if @task.ancestors.any?
-    %ul.breadcrumb
-      - @task.ancestors.reverse.each do |ancestor|
-        %li.ancestor{ data: { id: ancestor.id }}
-          = link_to(ancestor.name, task_path(ancestor), class: 'task-link')
+  = render 'layouts/breadcrumb', task: @task
 
 %h1
   = @task.name
