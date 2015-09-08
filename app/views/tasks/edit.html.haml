@@ -1,3 +1,20 @@
+%nav
+  - if @task.ancestors.any?
+    %ul.breadcrumb
+      - @task.ancestors.reverse.each do |ancestor|
+        %li.ancestor{ data: { id: ancestor.id }}
+          = link_to(ancestor.name, task_path(ancestor), class: 'task-link')
+
+%h1
+  = @task.name
+
 = simple_form_for(@task) do |f|
+  = f.input :name
+  = f.association :reference,
+      collection: Task.all.sort_by(&:ancestry_path),
+      label_method: :ancestry_path_as_string
+
+  = f.input :goal
   = f.input :weight
   = f.button :submit
+  = link_to 'Cancel', task_path(@task)

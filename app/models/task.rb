@@ -56,4 +56,8 @@ class Task < ActiveRecord::Base
   def random_doable_child_task
     children.doable.order_by_rand_weighted(:weight).first
   end
+
+  def ancestry_path_as_string
+    ancestry_path.join(" / ")
+  end
 end
