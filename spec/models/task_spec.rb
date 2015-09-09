@@ -124,7 +124,7 @@ RSpec.describe Task, type: :model do
     end
   end
 
-  describe '#random_doable_child_task', :focus do
+  describe '#random_doable_child_task' do
     let!(:task) { create(:task) }
 
     let(:last_done_on) { Date.current }
