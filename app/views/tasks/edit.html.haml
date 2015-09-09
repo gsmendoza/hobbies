@@ -5,4 +5,4 @@
   = @task.name
 
 = simple_form_for(@task) do |f|
-  = render 'tasks/form', f: f, cancel_target_task: @task
+  = render 'tasks/form', f: f, cancel_path: task_path(@task)
