@@ -17,3 +17,5 @@
               &ndash;
               = link_to("Mark as done", mark_as_done_task_path(task),
                   data: { name: 'mark-as-done' }, method: :put)
+
+= link_to 'Add root task', new_task_path, class: 'add-task btn btn-default'

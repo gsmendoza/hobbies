@@ -1,0 +1,8 @@
+%nav
+  = render 'layouts/breadcrumb', task: @task
+
+%h1
+  New task
+
+= simple_form_for(@task) do |f|
+  = render 'tasks/form', f: f, cancel_path: root_path

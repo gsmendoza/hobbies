@@ -1,3 +1,5 @@
+- cancel_path ||= nil
+
 = f.input :name
 = f.association :reference,
     collection: Task.all.sort_by(&:ancestry_path),
@@ -6,4 +8,4 @@
 = f.input :goal
 = f.input :weight
 = f.button :submit
-= link_to 'Cancel', task_path(cancel_target_task)
+= link_to 'Cancel', cancel_path || task_path(cancel_target_task)

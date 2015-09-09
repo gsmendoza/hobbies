@@ -1,6 +1,12 @@
 shared_context 'home_page' do
   let(:home_page) do
     Napybara::Element.new(self) do |page|
+      def page.visit
+        node.visit node.root_path
+      end
+
+      page.finder :add_task_link, 'a.add-task'
+
       page.finder :task_item, 'li.task' do |task_item|
         task_item.finder :root, 'li:first-child' do |root|
           def root.value

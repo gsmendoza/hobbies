@@ -1,6 +1,18 @@
 class TasksController < ApplicationController
   include TaskControllerConcerns
 
+  def create
+    @task = Task.new(task_params)
+    @task.status = Status::READY
+
+    if @task.save
+      flash[:notice] = "Task created!"
+      redirect_to task_path(@task)
+    else
+      render 'new'
+    end
+  end
+
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
@@ -36,6 +48,10 @@ class TasksController < ApplicationController
     flash[:notice] = "Task #{task.name} marked as done"
 
     redirect_to :back
+  end
+
+  def new
+    @task = Task.new
   end
 
   def show
