@@ -1,4 +1,6 @@
 class TasksController < ApplicationController
+  include TaskControllerConcerns
+
   def edit
     @task = Task.find(params[:id])
   end
@@ -25,11 +27,5 @@ class TasksController < ApplicationController
 
   def show
     @task = Task.find(params[:id])
-  end
-
-  private
-
-  def task_params
-    params[:task].permit(:weight)
   end
 end
