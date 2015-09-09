@@ -3,29 +3,8 @@
 #   I want to visit a home page
 #   So I can learn more about the website
 feature 'Home page' do
+  include_context 'home_page'
   include_context 'task_page'
-
-  let(:home_page) do
-    Napybara::Element.new(self) do |page|
-      page.finder :task_item, 'li.task' do |task_item|
-        task_item.finder :root, 'li:first-child' do |root|
-          def root.value
-            Task.find(node['data-id'])
-          end
-        end
-
-        task_item.finder :leaf, 'li:last-child' do |leaf|
-          def leaf.value
-            Task.find(node['data-id'])
-          end
-
-          leaf.finder :show_link, 'a[data-name="show"]'
-
-          leaf.finder :mark_as_done_link, 'a[data-name="mark-as-done"]'
-        end
-      end
-    end
-  end
 
   let(:root_task) do
     create(:root_task, children: todo_tasks)

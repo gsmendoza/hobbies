@@ -1,7 +1,7 @@
 class Task < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
 
-  has_closure_tree
+  has_closure_tree dependent: :destroy
 
   belongs_to_active_hash :status
 

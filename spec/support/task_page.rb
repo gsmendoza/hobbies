@@ -18,6 +18,8 @@ shared_context 'task_page' do
 
         task.finder :edit_link, 'a.edit-task-link'
 
+        task.finder :delete_link, '.actions a.delete-task-link'
+
         task.finder :ancestor, '.ancestor' do |ancestor|
           def ancestor.value
             Task.find(node['data-id'])

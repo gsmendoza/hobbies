@@ -3,3 +3,9 @@
 = link_to 'Mark as done', mark_as_done_task_path(task), method: :put
 |
 = link_to 'Add child task', new_task_child_task_path(task), class: 'add-child-task-link'
+|
+= link_to 'Delete',
+    task_path(task),
+    method: :delete,
+    class: 'delete-task-link',
+    data: { confirm: "Are you sure you want to delete '#{task.name}'?" }
