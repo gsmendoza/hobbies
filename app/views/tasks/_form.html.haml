@@ -1,0 +1,9 @@
+= f.input :name
+= f.association :reference,
+    collection: Task.all.sort_by(&:ancestry_path),
+    label_method: :ancestry_path_as_string
+
+= f.input :goal
+= f.input :weight
+= f.button :submit
+= link_to 'Cancel', task_path(cancel_target_task)

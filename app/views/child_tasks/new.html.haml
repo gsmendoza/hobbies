@@ -5,12 +5,4 @@
   New task
 
 = simple_form_for(@task, url: task_child_tasks_path(@parent_task, @task)) do |f|
-  = f.input :name
-  = f.association :reference,
-      collection: Task.all.sort_by(&:ancestry_path),
-      label_method: :ancestry_path_as_string
-
-  = f.input :goal
-  = f.input :weight
-  = f.button :submit
-  = link_to 'Cancel', task_path(@parent_task)
+  = render 'tasks/form', f: f, cancel_target_task: @task.parent
