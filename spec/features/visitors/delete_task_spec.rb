@@ -31,6 +31,30 @@ feature 'Add child task' do
   end
 
   context 'when task is not a root task' do
-    scenario "user is redirected to the parent's page after deletion"
+    let!(:parent_task) { create(:task) }
+    let!(:task) { create(:task, parent: parent_task) }
+    let!(:child_task) { create(:task, parent: task) }
+
+    scenario "user is redirected to the parent's page after deletion" do
+      When "I view the task" do
+        task_page.visit(task)
+      end
+
+      Then "I should see a link to delete the task" do
+        expect(task_page.task).to have_delete_link
+      end
+
+      When "I follow the link" do
+        task_page.task.delete_link.node.click
+      end
+
+      Then "I should see that the task has deleted" do
+        expect(task_page.task.value).to eq(parent_task)
+      end
+
+      And "I should see that its descendents have also been deleted" do
+        expect { child_task.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end
