@@ -10,6 +10,12 @@ shared_context 'task_page' do
           Task.find(node['data-id'])
         end
 
+        def task.parent
+          ancestors.last
+        end
+
+        task.finder :add_child_link, 'a.add-child-task-link'
+
         task.finder :edit_link, 'a.edit-task-link'
 
         task.finder :ancestor, '.ancestor' do |ancestor|
@@ -18,6 +24,12 @@ shared_context 'task_page' do
           end
 
           ancestor.finder :task_link, 'a.task-link'
+        end
+
+        task.finder :name, '.name' do |name|
+          def name.value
+            node.text
+          end
         end
 
         task.finder :weight, '.weight .value' do |weight|

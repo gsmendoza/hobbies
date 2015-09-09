@@ -5,5 +5,7 @@ Rails.application.routes.draw do
     member do
       put :mark_as_done
     end
+
+    resources :child_tasks, only: [:create, :new]
   end
 end
