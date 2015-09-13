@@ -51,7 +51,7 @@
           %th Done count
           %th Actions
 
-        - @task.children.order(:name).each do |child_task|
+        - @task.children.order('last_done_on, weight desc').each do |child_task|
           %tr.child-task{ data: { id: child_task.id }}
             %td= link_to(child_task.name, task_path(child_task), class: 'task-link')
 
