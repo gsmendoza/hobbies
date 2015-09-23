@@ -24,6 +24,10 @@ class Task < ActiveRecord::Base
 
   scope :todo, -> { where(status: Status::TODO) }
 
+  before_validation do
+    self.adjusted_weight = weight.to_f / (done_count == 0 ? 1 : done_count)
+  end
+
   def self.doable
     where("not(status_id = :status_id and last_done_on = :last_done_on)",
       status_id: Status::DONE.id,
@@ -68,7 +72,7 @@ class Task < ActiveRecord::Base
   end
 
   def random_doable_child_task
-    children.doable.order_by_rand_weighted(:weight).first
+    children.doable.order_by_rand_weighted(:adjusted_weight).first
   end
 
   def ancestry_path_as_string

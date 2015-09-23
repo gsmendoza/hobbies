@@ -71,6 +71,7 @@ feature 'Home page' do
       expect(task.status.value).to eq(Status::DONE)
       expect(task.last_done_on.value).to eq(Date.current)
       expect(task.done_count.value).to eq(1)
+      expect(task.adjusted_weight.value).to eq(1)
     end
   end
 end

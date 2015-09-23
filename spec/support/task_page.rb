@@ -40,6 +40,12 @@ shared_context 'task_page' do
           end
         end
 
+        task.finder :adjusted_weight, '.adjusted-weight .value' do |adjusted_weight|
+          def adjusted_weight.value
+            node.text.to_i
+          end
+        end
+
         task.finder :status, '.status .value' do |status|
           def status.value
             Status.find_by_name(node.text)

@@ -19,6 +19,10 @@
       %th Weight
       %td.value= @task.weight
 
+    %tr.adjusted-weight
+      %th Adjusted Weight
+      %td.value= @task.adjusted_weight.round(2)
+
     %tr.status
       %th Status
       %td.value= @task.status.name
@@ -46,6 +50,7 @@
           %th Reference
           %th Goal
           %th Weight
+          %th Adjusted Weight
           %th Status
           %th Last done on
           %th Done count
@@ -63,6 +68,7 @@
 
             %td= child_task.goal
             %td= child_task.weight
+            %td= child_task.adjusted_weight.round(2)
             %td= child_task.status.name
             %td= child_task.last_done_on
             %td= child_task.done_count

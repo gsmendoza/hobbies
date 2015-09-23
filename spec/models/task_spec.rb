@@ -23,8 +23,8 @@ RSpec.describe Task, type: :model do
         task.parent = parent_task
         task.status = Status::READY
         task.last_done_on = Date.current
-        task.done_count = 1
-        task.weight = 2
+        task.done_count = 3
+        task.weight = 6
         task.reference = reference_task
         task.name = 'Some task'
         task.goal = 'Some goal'
@@ -32,6 +32,8 @@ RSpec.describe Task, type: :model do
         expect(task).to be_valid
 
         task.save!
+
+        expect(task.adjusted_weight).to eq(6 / 3)
       end
     end
   end
