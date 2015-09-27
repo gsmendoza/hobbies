@@ -5,40 +5,7 @@
   %h1.name
     = @task.name
 
-  %table.table
-    %tr.reference
-      %th Reference
-      %td.value
-        = render 'layouts/breadcrumb', task: @task.reference if @task.reference
-
-    %tr.goal
-      %th Goal
-      %td.value= @task.goal
-
-    %tr.weight
-      %th Weight
-      %td.value= @task.weight
-
-    %tr.adjusted-weight
-      %th Adjusted Weight
-      %td.value= @task.adjusted_weight.round(2)
-
-    %tr.status
-      %th Status
-      %td.value= @task.status.name
-
-    %tr.last-done-on
-      %th Last done on
-      %td.value= @task.last_done_on
-
-    %tr.done-count
-      %th Done count
-      %td.value= @task.done_count
-
-    %tr.actions
-      %th Actions
-      %td
-        = render 'show_actions', task: @task
+  = render 'summary', task: @task
 
   - if @task.children.any?
     .child-tasks

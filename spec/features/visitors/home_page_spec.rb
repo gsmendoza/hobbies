@@ -15,7 +15,7 @@ feature 'Home page' do
   end
 
   let(:first_recommended_task_item) do
-    home_page.task_item.leaf
+    home_page.task_item
   end
 
   let(:first_recommended_task_item_value) do
@@ -57,7 +57,7 @@ feature 'Home page' do
     end
 
     Then 'I should see the other subtask' do
-      expect(home_page.task_item.leaf.value)
+      expect(home_page.task_item.value)
         .to_not eq(first_recommended_task_item_value)
     end
 

@@ -1,6 +1,9 @@
+= link_to 'View', task_path(task), data: { name: 'show' }
+|
 = link_to 'Edit', edit_task_path(task), class: 'edit-task-link'
 |
-= link_to 'Mark as done', mark_as_done_task_path(task), method: :put
+= link_to 'Mark as done', mark_as_done_task_path(task), method: :put,
+    data: { name: 'mark-as-done' }
 |
 = link_to 'Add child task', new_task_child_task_path(task), class: 'add-child-task-link'
 |
