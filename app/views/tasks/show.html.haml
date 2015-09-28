@@ -26,7 +26,7 @@
         :ruby
           children =
             @task.children
-              .order('last_done_on, done_count, adjusted_weight desc, name')
+              .order('last_done_on, adjusted_weight desc, name')
 
         - children.each do |child_task|
           %tr.child-task{ data: { id: child_task.id }}
