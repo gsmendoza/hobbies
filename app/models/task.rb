@@ -14,6 +14,10 @@ class Task < ActiveRecord::Base
     presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  validates :adjusted_weight,
+    presence: true,
+    numericality: { greater_than_or_equal_to: 0 }
+
   validates :status_id,
     presence: true,
     inclusion: { in: Status.all.map(&:id) }
