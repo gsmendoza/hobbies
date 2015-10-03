@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923091236) do
+ActiveRecord::Schema.define(version: 20151003002438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,17 +26,18 @@ ActiveRecord::Schema.define(version: 20150923091236) do
   add_index "task_hierarchies", ["descendant_id"], name: "task_desc_idx", using: :btree
 
   create_table "tasks", force: :cascade do |t|
-    t.string   "name",                          null: false
+    t.string   "name",                            null: false
     t.integer  "reference_id"
     t.string   "goal"
-    t.integer  "weight",          default: 1,   null: false
+    t.integer  "weight",            default: 1,   null: false
     t.integer  "parent_id"
-    t.integer  "status_id",                     null: false
+    t.integer  "status_id",                       null: false
     t.date     "last_done_on"
-    t.integer  "done_count",      default: 0,   null: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.float    "adjusted_weight", default: 1.0, null: false
+    t.integer  "done_count",        default: 0,   null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.float    "adjusted_weight",   default: 1.0, null: false
+    t.integer  "done_count_offset", default: 0,   null: false
   end
 
 end
