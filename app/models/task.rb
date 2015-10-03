@@ -24,15 +24,15 @@ class Task < ActiveRecord::Base
 
   scope :todo, -> { where(status: Status::TODO) }
 
-  before_validation do
+  before_save do
+    if self.new_record?
+      self.done_count_offset =
+        siblings.order("done_count + done_count_offset").first
+          .try(:offsetted_done_count) || 0
+    end
+
     self.adjusted_weight =
       weight.to_f / (offsetted_done_count == 0 ? 1 : offsetted_done_count)
-  end
-
-  before_create do
-    self.done_count_offset =
-      siblings.order("done_count + done_count_offset").last
-        .try(:offsetted_done_count) || 0
   end
 
   def self.doable
@@ -78,15 +78,15 @@ class Task < ActiveRecord::Base
     self
   end
 
-  def offsetted_done_count
-    done_count + done_count_offset
-  end
-
   def random_doable_child_task
     children.doable.order_by_rand_weighted(:adjusted_weight).first
   end
 
   def ancestry_path_as_string
     ancestry_path.join(" / ")
+  end
+
+  def offsetted_done_count
+    done_count + done_count_offset
   end
 end

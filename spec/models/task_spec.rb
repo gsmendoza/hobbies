@@ -1,26 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
-  describe '#valid?' do
-    let(:done_count) { 3 }
-    let(:weight) { 60 }
-    let(:done_count_offset) { 9 }
-
-    let(:task) do
-      build(:task,
-        done_count: done_count,
-        weight: weight,
-        done_count_offset: done_count_offset)
-    end
-
-    it "sets the adjusted_weight" do
-      task.valid?
-
-      expect(task.adjusted_weight)
-        .to eq(weight.to_f / (done_count + done_count_offset))
-    end
-  end
-
   describe '#save' do
     context "with minimal attributes" do
       it "will save the task" do
@@ -57,19 +37,20 @@ RSpec.describe Task, type: :model do
 
     context 'when the task is new' do
       let(:parent_task) { nil }
-      let(:task) { build(:task, parent: parent_task) }
+      let(:weight) { 16 }
+      let(:task) { build(:task, weight: weight, parent: parent_task) }
 
       context 'when the task has siblings' do
         let!(:parent_task) { create(:task) }
 
         let!(:sibling_tasks) do
           [
-            create(:task, parent: parent_task, done_count: 8, done_count_offset: 5),
-            create(:task, parent: parent_task, done_count: 1, done_count_offset: 2)
+            create(:task, parent: parent_task, done_count: 8),
+            create(:task, parent: parent_task, done_count: 1)
           ]
         end
 
-        let(:sibling_with_lowest_offsetted_done_count) { sibling_tasks[1] }
+        let(:sibling_with_lowest_offsetted_done_count) { sibling_tasks[0] }
 
         let(:expected_offsetted_done_count) do
           sibling_with_lowest_offsetted_done_count.done_count +
@@ -79,6 +60,9 @@ RSpec.describe Task, type: :model do
         before do
           parent_task.reload
           expect(parent_task.children).to eq(sibling_tasks)
+
+          expect(sibling_tasks[0].offsetted_done_count).to eq(8)
+          expect(sibling_tasks[1].offsetted_done_count).to eq(9) # 8 + 1
         end
 
         it "sets the done count offset to the lowest offsetted done count of its
@@ -86,6 +70,13 @@ RSpec.describe Task, type: :model do
           task.save!
 
           expect(task.done_count_offset).to eq(expected_offsetted_done_count)
+        end
+
+        it "sets the adjusted_weight" do
+          task.save!
+
+          expect(task.adjusted_weight)
+            .to eq(weight.to_f / expected_offsetted_done_count)
         end
       end
 
@@ -99,6 +90,22 @@ RSpec.describe Task, type: :model do
 
           expect(task.done_count_offset).to eq(0)
         end
+      end
+    end
+
+    context 'when the task is not new' do
+      let(:done_count) { 3 }
+      let(:weight) { 60 }
+
+      let(:task) do
+        create(:task, done_count: done_count, weight: weight)
+      end
+
+      it "sets the adjusted_weight" do
+        task.save!
+
+        expect(task.done_count_offset).to eq(0)
+        expect(task.adjusted_weight).to eq(weight.to_f / done_count)
       end
     end
   end
