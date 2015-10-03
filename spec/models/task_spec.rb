@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
+  describe '#valid?' do
+    let(:done_count) { 3 }
+    let(:weight) { 6 }
+
+    it "sets the adjusted_weight" do
+      task = build(:task)
+
+      task.done_count = done_count
+      task.weight = weight
+
+      task.valid?
+
+      expect(task.adjusted_weight).to eq(weight / done_count)
+    end
+  end
+
   describe '#save' do
     context "with minimal attributes" do
       it "will save the task" do
@@ -32,8 +48,6 @@ RSpec.describe Task, type: :model do
         expect(task).to be_valid
 
         task.save!
-
-        expect(task.adjusted_weight).to eq(6 / 3)
       end
     end
   end
