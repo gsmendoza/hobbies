@@ -1,4 +1,6 @@
-feature 'Add child task' do
+require 'rails_helper'
+
+RSpec.feature 'Add child task' do
   include_context 'task_page'
 
   context 'when task is a root task' do

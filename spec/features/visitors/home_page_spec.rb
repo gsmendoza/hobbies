@@ -1,8 +1,10 @@
+require 'rails_helper'
+
 # Feature: Home page
 #   As a visitor
 #   I want to visit a home page
 #   So I can learn more about the website
-feature 'Home page' do
+RSpec.feature 'Home page' do
   include_context 'home_page'
   include_context 'task_page'
 

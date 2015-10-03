@@ -1,4 +1,6 @@
-feature 'Edit task' do
+require 'rails_helper'
+
+RSpec.feature 'Edit task' do
   include_context 'task_page'
 
   let(:edit_page) do

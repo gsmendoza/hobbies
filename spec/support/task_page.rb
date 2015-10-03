@@ -1,4 +1,4 @@
-shared_context 'task_page' do
+RSpec.shared_context 'task_page' do
   let(:task_page) do
     Napybara::Element.new(self) do |page|
       def page.visit(task)

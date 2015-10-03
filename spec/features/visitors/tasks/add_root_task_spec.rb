@@ -1,4 +1,6 @@
-feature 'Add root task' do
+require 'rails_helper'
+
+RSpec.feature 'Add root task' do
   include_context 'home_page'
   include_context 'task_page'
 

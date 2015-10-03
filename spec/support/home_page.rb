@@ -1,4 +1,4 @@
-shared_context 'home_page' do
+RSpec.shared_context 'home_page' do
   let(:home_page) do
     Napybara::Element.new(self) do |page|
       def page.visit

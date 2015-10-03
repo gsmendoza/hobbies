@@ -1,4 +1,6 @@
-feature 'View task' do
+require 'rails_helper'
+
+RSpec.feature 'View task' do
   include_context 'task_page'
 
   context "task has children" do
