@@ -3,17 +3,21 @@ require 'rails_helper'
 RSpec.describe Task, type: :model do
   describe '#valid?' do
     let(:done_count) { 3 }
-    let(:weight) { 6 }
+    let(:weight) { 60 }
+    let(:done_count_offset) { 9 }
+
+    let(:task) do
+      build(:task,
+        done_count: done_count,
+        weight: weight,
+        done_count_offset: done_count_offset)
+    end
 
     it "sets the adjusted_weight" do
-      task = build(:task)
-
-      task.done_count = done_count
-      task.weight = weight
-
       task.valid?
 
-      expect(task.adjusted_weight).to eq(weight / done_count)
+      expect(task.adjusted_weight)
+        .to eq(weight.to_f / (done_count + done_count_offset))
     end
   end
 
@@ -48,6 +52,53 @@ RSpec.describe Task, type: :model do
         expect(task).to be_valid
 
         task.save!
+      end
+    end
+
+    context 'when the task is new' do
+      let(:parent_task) { nil }
+      let(:task) { build(:task, parent: parent_task) }
+
+      context 'when the task has siblings' do
+        let!(:parent_task) { create(:task) }
+
+        let!(:sibling_tasks) do
+          [
+            create(:task, parent: parent_task, done_count: 8, done_count_offset: 5),
+            create(:task, parent: parent_task, done_count: 1, done_count_offset: 2)
+          ]
+        end
+
+        let(:sibling_with_lowest_offsetted_done_count) { sibling_tasks[1] }
+
+        let(:expected_offsetted_done_count) do
+          sibling_with_lowest_offsetted_done_count.done_count +
+            sibling_with_lowest_offsetted_done_count.done_count_offset
+        end
+
+        before do
+          parent_task.reload
+          expect(parent_task.children).to eq(sibling_tasks)
+        end
+
+        it "sets the done count offset to the lowest offsetted done count of its
+          siblings".squish do
+          task.save!
+
+          expect(task.done_count_offset).to eq(expected_offsetted_done_count)
+        end
+      end
+
+      context "when the task doesn't have siblings" do
+        before do
+          expect(task.siblings).to be_empty
+        end
+
+        it "sets the done count offset to zero" do
+          task.save!
+
+          expect(task.done_count_offset).to eq(0)
+        end
       end
     end
   end

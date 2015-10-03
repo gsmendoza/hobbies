@@ -25,7 +25,14 @@ class Task < ActiveRecord::Base
   scope :todo, -> { where(status: Status::TODO) }
 
   before_validation do
-    self.adjusted_weight = weight.to_f / (done_count == 0 ? 1 : done_count)
+    self.adjusted_weight =
+      weight.to_f / (offsetted_done_count == 0 ? 1 : offsetted_done_count)
+  end
+
+  before_create do
+    self.done_count_offset =
+      siblings.order("done_count + done_count_offset").last
+        .try(:offsetted_done_count) || 0
   end
 
   def self.doable
@@ -69,6 +76,10 @@ class Task < ActiveRecord::Base
     self.save!
 
     self
+  end
+
+  def offsetted_done_count
+    done_count + done_count_offset
   end
 
   def random_doable_child_task
