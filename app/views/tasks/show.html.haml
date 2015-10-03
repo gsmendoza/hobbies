@@ -16,11 +16,9 @@
           %th Name
           %th Reference
           %th Goal
-          %th Weight
           %th Adjusted Weight
           %th Status
           %th Last done on
-          %th Done count
           %th Actions
 
         :ruby
@@ -38,10 +36,16 @@
                 = link_to(reference.name, task_path(reference))
 
             %td= child_task.goal
-            %td= child_task.weight
-            %td= child_task.adjusted_weight.round(2)
+            %td
+              .value
+                #{child_task.adjusted_weight.round(2)}
+              .small.explanation
+                \=
+                (#{child_task.weight}
+                \/ (#{child_task.done_count}
+                \+ #{child_task.done_count_offset}))
+
             %td= child_task.status.name
             %td= child_task.last_done_on
-            %td= child_task.done_count
             %td
               = render 'show_actions', task: child_task
