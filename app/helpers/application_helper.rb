@@ -1,14 +1,14 @@
 module ApplicationHelper
-  def link_to_if_external_uri(text)
-    uri?(text) ? link_to(text, text, target: '_blank') : text
-  end
+  def link_to_if_external_uri(text, show_only_host: false)
+    uri = URI.parse(text)
 
-  def uri?(string)
-    uri = URI.parse(string)
-    %w( http https ).include?(uri.scheme)
-  rescue URI::BadURIError
-    false
-  rescue URI::InvalidURIError
-    false
+    if %w( http https ).include?(uri.scheme)
+      body = show_only_host ? uri.host : text
+      link_to(body, text, target: '_blank')
+    else
+      text
+    end
+  rescue URI::BadURIError, URI::InvalidURIError
+    text
   end
 end

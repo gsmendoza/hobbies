@@ -29,7 +29,7 @@
         - children.each do |child_task|
           %tr.child-task{ data: { id: child_task.id }}
             %td= link_to(child_task.name, task_path(child_task), class: 'task-link')
-            %td= link_to_if_external_uri(child_task.reference)
+            %td= link_to_if_external_uri(child_task.reference, show_only_host: true)
             %td= child_task.goal
             %td
               .value
