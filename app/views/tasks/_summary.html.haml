@@ -7,7 +7,7 @@
 
   %tr.reference
     %th Reference
-    %td.value= task.reference
+    %td.value= link_to_if_external_uri(task.reference)
 
   %tr.goal
     %th Goal
