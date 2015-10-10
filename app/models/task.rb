@@ -93,4 +93,8 @@ class Task < ActiveRecord::Base
   def offsetted_done_count
     done_count + done_count_offset
   end
+
+  def to_param
+    "#{id} #{name}".parameterize
+    end
 end
