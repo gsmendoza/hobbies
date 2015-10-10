@@ -1,4 +1,10 @@
 = f.input :name
+
+- if f.object.persisted?
+  = f.association :parent,
+      collection: Task.all.sort_by(&:ancestry_path),
+      label_method: :ancestry_path_as_string
+
 = f.association :reference,
     collection: Task.all.sort_by(&:ancestry_path),
     label_method: :ancestry_path_as_string
