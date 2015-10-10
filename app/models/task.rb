@@ -95,5 +95,13 @@ class Task < ActiveRecord::Base
 
   def to_param
     "#{id} #{name}".parameterize
-    end
+  end
+
+  def to_s
+    ancestry_path_as_string
+  end
+
+  def parent_to_s
+    parent.try(:to_s)
+  end
 end

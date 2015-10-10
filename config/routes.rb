@@ -7,5 +7,7 @@ Rails.application.routes.draw do
     end
 
     resources :child_tasks, only: [:create, :new]
+
+    get :autocomplete_task_name, on: :collection
   end
 end

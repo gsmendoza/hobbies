@@ -1,9 +1,13 @@
 = f.input :name
 
 - if f.object.persisted?
-  = f.association :parent,
-      collection: Task.all.sort_by(&:ancestry_path),
-      label_method: :ancestry_path_as_string
+  = f.input :parent do
+    = f.autocomplete_field :parent_to_s,
+        autocomplete_task_name_tasks_path,
+        id_element: '#task_parent_id',
+        class: 'string optional form-control'
+
+    = f.input :parent_id, as: :hidden
 
 = f.input :reference, as: :string
 = f.input :goal

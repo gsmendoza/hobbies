@@ -1,6 +1,8 @@
 class TasksController < ApplicationController
   include TaskControllerConcerns
 
+  autocomplete :task, :name, display_value: :to_s, full: true
+
   def create
     @task = Task.new(task_params)
     @task.status = Status::READY

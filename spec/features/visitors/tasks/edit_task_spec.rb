@@ -40,7 +40,7 @@ RSpec.feature 'Edit task' do
   let(:edit_page) do
     Napybara::Element.new(self) do |page|
       page.finder :form, 'form' do |form|
-        form.finder :parent_id, '#task_parent_id'
+        form.finder :parent_id, '#task_parent_id', visible: :lfase
         form.finder :reference, '#task_reference'
         form.finder :weight, '#task_weight'
         form.finder :submit_button, 'input[type=submit]'
@@ -68,12 +68,12 @@ RSpec.feature 'Edit task' do
     it_behaves_like 'can change the value of the field'
   end
 
+  # TODO: see if there's a reliable way to test the autocomplete.
   context 'when the field edited is the parent' do
     let!(:new_parent) { create(:task) }
 
     def change_value_of_field
-      edit_page.form.parent_id
-        .node.find(:option, new_parent.ancestry_path_as_string).select_option
+      edit_page.form.parent_id.node.set(new_parent.id)
     end
 
     def expect_that_field_was_updated
