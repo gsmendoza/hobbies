@@ -41,6 +41,7 @@ RSpec.feature 'Edit task' do
     Napybara::Element.new(self) do |page|
       page.finder :form, 'form' do |form|
         form.finder :parent_id, '#task_parent_id'
+        form.finder :reference, '#task_reference'
         form.finder :weight, '#task_weight'
         form.finder :submit_button, 'input[type=submit]'
 
@@ -77,6 +78,24 @@ RSpec.feature 'Edit task' do
 
     def expect_that_field_was_updated
       expect(task_page.task.parent.value).to eq(new_parent)
+    end
+
+    it_behaves_like 'can change the value of the field'
+  end
+
+  context 'when the field edited is a reference' do
+    let(:new_reference) { "new reference" }
+
+    def change_value_of_field
+      edit_page.form.reference.node.set(new_reference)
+    end
+
+    def expect_that_field_was_updated
+      expect(task_page.task.reference.value).to eq(new_reference)
+    end
+
+    before do
+      expect(task.reference).to_not eq(new_reference)
     end
 
     it_behaves_like 'can change the value of the field'

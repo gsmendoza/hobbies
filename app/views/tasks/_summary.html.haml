@@ -7,9 +7,7 @@
 
   %tr.reference
     %th Reference
-    %td.value
-      - if task.reference
-        = link_to(task.reference.name, task_path(task.reference))
+    %td.value= task.reference
 
   %tr.goal
     %th Goal

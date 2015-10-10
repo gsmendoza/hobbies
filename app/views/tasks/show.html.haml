@@ -29,12 +29,7 @@
         - children.each do |child_task|
           %tr.child-task{ data: { id: child_task.id }}
             %td= link_to(child_task.name, task_path(child_task), class: 'task-link')
-
-            %td
-              - reference = child_task.reference
-              - if reference
-                = link_to(reference.name, task_path(reference))
-
+            %td= child_task.reference
             %td= child_task.goal
             %td
               .value

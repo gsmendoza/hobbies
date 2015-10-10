@@ -6,7 +6,6 @@ class Task < ActiveRecord::Base
   belongs_to_active_hash :status
 
   belongs_to :parent, class_name: 'Task'
-  belongs_to :reference, class_name: 'Task'
 
   validates :name, presence: true
 

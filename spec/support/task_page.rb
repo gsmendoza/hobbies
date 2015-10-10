@@ -34,6 +34,12 @@ RSpec.shared_context 'task_page' do
           end
         end
 
+        task.finder :reference, '.reference .value' do |reference|
+          def reference.value
+            node.text
+          end
+        end
+
         task.finder :weight, '.weight .value' do |weight|
           def weight.value
             node.text.to_i
